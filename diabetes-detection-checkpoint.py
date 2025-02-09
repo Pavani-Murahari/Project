@@ -13,7 +13,7 @@ from keras.layers import Dense
 import seaborn as sns
 
 # Load Data
-df = pd.read_csv('D:\ml\datasets\diabetes.csv')
+df = pd.read_csv('diabetes.csv')
 
 df.head()
 
