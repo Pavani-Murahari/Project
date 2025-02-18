@@ -59,7 +59,6 @@ st.write(user_data)
 # RANDOM FOREST MODEL
 rf = RandomForestClassifier()
 rf.fit(x_train, y_train)
-rf_result = rf.predict(user_data)
 
 import tensorflow as tf
 print(tf.__version__)
@@ -115,4 +114,6 @@ st.subheader('Accuracy:')
 st.write(f"{accuracy_score(y_test, rf.predict(x_test)) * 100:.2f}%")
 st.subheader('Neural Network Output:')
 st.write(nn_result)
+
+rf_result = rf.predict(user_data)
 
