@@ -8,3 +8,4 @@ plotly
 scikit-learn
 tensorflow
 keras
+imbalanced-learn
