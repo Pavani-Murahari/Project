@@ -9,6 +9,8 @@ from sklearn.preprocessing import StandardScaler
 from imblearn.over_sampling import SMOTE
 from sklearn.metrics import accuracy_score
 
+pip install imbalanced-learn
+
 # Load Data
 df = pd.read_csv('diabetes.csv')
 
