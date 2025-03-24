@@ -109,7 +109,7 @@ plot_graph(7, 6, user_data['Age'][0], user_data['DiabetesPedigreeFunction'][0], 
 
 # OUTPUT
 st.subheader('Your Report:')
-output = 'You are Diabetic' if user_result[0] == 1 else 'You are not Diabetic'
+output = 'You are not Diabetic' if user_result[0] == 1 else 'You are Diabetic'
 st.title(output)
 
 # ACCURACY
