@@ -47,7 +47,7 @@ stacked_model = StackingClassifier(
 # Train the stacked model
 stacked_model.fit(X_train, y_train)
 
-# FUNCTION
+# FUNCTION TO GET USER INPUT
 def user_report():
     pregnancies = st.sidebar.slider('Pregnancies', 0, 17, 3)
     glucose = st.sidebar.slider('Glucose', 0, 200, 120)
@@ -71,7 +71,7 @@ def user_report():
     report_data = pd.DataFrame(user_report_data, index=[0])
     return report_data
 
-# PATIENT DATA
+# GET USER DATA
 user_data = user_report()
 st.subheader('Patient Data')
 st.write(user_data)
@@ -79,40 +79,37 @@ st.write(user_data)
 # Standardize user input
 user_data_scaled = scaler.transform(user_data)
 
-# PREDICTION
+# PREDICTION & PROBABILITIES
 user_result = stacked_model.predict(user_data_scaled)
+user_proba = stacked_model.predict_proba(user_data_scaled)[0]  # Probabilities of class 0 and 1
+
+# DEBUGGING OUTPUT
+st.subheader("Debugging Information")
+st.write(f"Raw User Data: {user_data}")
+st.write(f"Scaled User Data: {user_data_scaled}")
+st.write(f"Prediction Probability (0=Not Diabetic, 1=Diabetic): {user_proba}")
+
+# THRESHOLD ADJUSTMENT: Predict `1` if probability of being diabetic is > 0.4 instead of 0.5
+threshold = 0.4
+final_prediction = 1 if user_proba[1] > threshold else 0
 
 # VISUALISATIONS
 st.title('Visualised Patient Report')
 
 # COLOR FUNCTION
-color = 'red' if user_result[0] == 1 else 'blue'
-
-# Plotting Function
-def plot_graph(x, y, user_x, user_y, title, palette, xticks, yticks):
-    fig = plt.figure()
-    sns.scatterplot(x=X[:, x], y=X[:, y], hue=y, palette=palette)
-    plt.scatter(user_x, user_y, color=color, s=150, edgecolors='black')
-    plt.xticks(np.arange(*xticks))
-    plt.yticks(np.arange(*yticks))
-    plt.title(title)
-    st.pyplot(fig)
-
-# Graphs
-plot_graph(7, 0, user_data['Age'][0], user_data['Pregnancies'][0], 'Pregnancy Count Graph', 'Greens', (10, 100, 5), (0, 20, 2))
-plot_graph(7, 1, user_data['Age'][0], user_data['Glucose'][0], 'Glucose Value Graph', 'magma', (10, 100, 5), (0, 220, 10))
-plot_graph(7, 2, user_data['Age'][0], user_data['BloodPressure'][0], 'Blood Pressure Value Graph', 'Reds', (10, 100, 5), (0, 130, 10))
-plot_graph(7, 3, user_data['Age'][0], user_data['SkinThickness'][0], 'Skin Thickness Value Graph', 'Blues', (10, 100, 5), (0, 110, 10))
-plot_graph(7, 4, user_data['Age'][0], user_data['Insulin'][0], 'Insulin Value Graph', 'rocket', (10, 100, 5), (0, 900, 50))
-plot_graph(7, 5, user_data['Age'][0], user_data['BMI'][0], 'BMI Value Graph', 'rainbow', (10, 100, 5), (0, 70, 5))
-plot_graph(7, 6, user_data['Age'][0], user_data['DiabetesPedigreeFunction'][0], 'DPF Value Graph', 'YlOrBr', (10, 100, 5), (0, 3, 0.2))
+color = 'red' if final_prediction == 1 else 'blue'
 
 # OUTPUT
 st.subheader('Your Report:')
-output = 'You are Diabetic' if user_result[0] == 1 else 'You are not Diabetic'
+output = 'You are Diabetic' if final_prediction == 1 else 'You are not Diabetic'
 st.title(output)
 
-# ACCURACY
+# MODEL ACCURACY CHECK
 y_pred = stacked_model.predict(X_test)
 st.subheader('Model Accuracy:')
 st.write(f"{accuracy_score(y_test, y_pred) * 100:.2f}%")
+
+# CHECK PREDICTION DISTRIBUTION
+unique, counts = np.unique(y_pred, return_counts=True)
+st.subheader("Model Predictions in Test Data")
+st.write(dict(zip(unique, counts)))
