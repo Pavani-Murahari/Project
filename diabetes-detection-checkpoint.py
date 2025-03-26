@@ -101,7 +101,7 @@ color = 'red' if final_prediction == 1 else 'blue'
 
 # OUTPUT
 st.subheader('Your Report:')
-output = 'You are Diabetic' if final_prediction == 1 else 'You are not Diabetic'
+output = 'You are not Diabetic' if final_prediction == 1 else 'You are Diabetic'
 st.title(output)
 
 # MODEL ACCURACY CHECK
