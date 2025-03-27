@@ -125,6 +125,10 @@ plot_graph(7, 4, user_data['Age'][0], user_data['Insulin'][0], 'Insulin Value Gr
 plot_graph(7, 5, user_data['Age'][0], user_data['BMI'][0], 'BMI Value Graph', 'rainbow', (10, 100, 5), (0, 70, 5))
 plot_graph(7, 6, user_data['Age'][0], user_data['DiabetesPedigreeFunction'][0], 'DPF Value Graph', 'YlOrBr', (10, 100, 5), (0, 3, 0.2))
 
+#OUTPUT
+st.subheader('Your Report')
+st.title(output)
+
 # ACCURACY
 y_pred = stacked_model.predict(X_test)
 st.subheader('Model Accuracy:')
