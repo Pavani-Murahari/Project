@@ -81,9 +81,6 @@ st.write(user_data)
 # Standardize user input
 user_data_scaled = scaler.transform(user_data)
 
-# DEBUGGING: Show scaled data
-st.subheader("Standardized Patient Data (For Debugging)")
-st.write(user_data_scaled)
 
 # PREDICTION & PROBABILITY
 user_prob = stacked_model.predict_proba(user_data_scaled)[0][1]  # Probability of being diabetic
