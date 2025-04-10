@@ -99,9 +99,6 @@ else:
     output = 'You are not Diabetic'
     color = 'blue'
 
-# OUTPUT
-st.subheader('Your Report:')
-st.title(output)
 
 # VISUALISATIONS
 st.title('Visualised Patient Report')
